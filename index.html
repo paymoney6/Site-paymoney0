@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayMoney</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fdbb2d;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo h2 {
+            font-size: 28px;
+            color: #fdbb2d;
+        }
+        
+        .logo span {
+            color: #b21f1f;
+        }
+        
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        label {
+            font-weight: 600;
+        }
+        
+        input, select {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        button {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #fdbb2d;
+            color: #1a2a6c;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #ffcc44;
+            transform: translateY(-2px);
+        }
+        
+        .switch-form {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .switch-form a {
+            color: #fdbb2d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .dashboard {
+            display: none;
+        }
+        
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .balance {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fdbb2d;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .counter-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .counter {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fdbb2d;
+            margin: 10px 0;
+        }
+        
+        .counter-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .earnings {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .earnings-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+        
+        .earnings-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fdbb2d;
+            margin-top: 5px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+        }
+        
+        .logout-btn {
+            background: #b21f1f;
+            color: white;
+        }
+        
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(0, 200, 0, 0.3);
+        }
+        
+        .error {
+            background: rgba(200, 0, 0, 0.3);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .paga-facil-logo {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #00a859;
+        }
+        
+        .transaction-history {
+            margin-top: 20px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .transaction-type {
+            font-weight: bold;
+        }
+        
+        .deposit {
+            color: #4CAF50;
+        }
+        
+        .withdrawal {
+            color: #f44336;
+        }
+        
+        .earning {
+            color: #fdbb2d;
+        }
+        
+        .transfer {
+            color: #2196F3;
+        }
+        
+        .transfer-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .transfer-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .transfer-details {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .confirmation-step {
+            display: none;
+        }
+        
+        .confirmation-details {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .welcome-bonus {
+            background: rgba(253, 187, 45, 0.2);
+            border: 2px solid #fdbb2d;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .bonus-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fdbb2d;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <h2>Pay<span>Money</span></h2>
+        
+    </div>
+    
+    <div class="container">
+        <!-- Formulário de Login -->
+        <div id="login-form" class="form-container">
+            <h1>Faça login</h1>
+            <div class="form-group">
+                <label for="login-phone">Número de Telefone</label>
+                <input type="tel" id="login-phone" placeholder="+258" pattern="[0-9]{9}">
+            </div>
+            <div class="form-group">
+                <label for="login-pin">PIN (4 dígitos)</label>
+                <input type="password" id="login-pin" placeholder="****" maxlength="4" pattern="[0-9]{4}">
+            </div>
+            <button id="login-btn">Entrar</button>
+            <div class="switch-form">
+                Não tem conta? <a href="#" id="show-register">Registrar</a>
+            </div>
+            <div id="login-message" class="message"></div>
+        </div>
+        
+        <!-- Formulário de Registro -->
+        <div id="register-form" class="form-container" style="display: none;">
+            <h1>Registro MZN</h1>
+            <div class="welcome-bonus">
+                <h3> Bónus de Boas-Vindas! </h3>
+                <p>Registe-se agora e receba</p>
+                <div class="bonus-amount">100 MZN</div>
+                <p>para começar a investir</p>
+            </div>
+            <div class="form-group">
+                <label for="register-name">Nome Completo</label>
+                <input type="text" id="register-name" placeholder="Seu nome completo">
+            </div>
+            <div class="form-group">
+                <label for="register-phone">Número de Telefone</label>
+                <input type="tel" id="register-phone" placeholder="+258" pattern="[0-9]{9}">
+            </div>
+            <div class="form-group">
+                <label for="register-pin">PIN (4 dígitos)</label>
+                <input type="password" id="register-pin" placeholder="Crie um PIN de 4 dígitos" maxlength="4" pattern="[0-9]{4}">
+            </div>
+            <div class="form-group">
+                <label for="register-confirm-pin">Confirmar PIN</label>
+                <input type="password" id="register-confirm-pin" placeholder="Confirme seu PIN" maxlength="4" pattern="[0-9]{4}">
+            </div>
+            <button id="register-btn">Criar Conta com Bónus</button>
+            <div class="switch-form">
+                Já tem conta? <a href="#" id="show-login">Login</a>
+            </div>
+            <div id="register-message" class="message"></div>
+        </div>
+        
+        <!-- Dashboard após login -->
+        <div id="dashboard" class="dashboard">
+            <div class="user-info">
+                <div>Bem-vindo, <span id="user-name">Usuário</span></div>
+                <div id="user-phone">+258</div>
+            </div>
+            
+            <div class="balance">
+                Saldo: <span id="user-balance">0</span> MZN
+            </div>
+            
+            <div class="counter-container">
+                <div class="counter-label">Contador de Investimento</div>
+                <div class="counter" id="counter">24:00:00</div>
+                <div class="counter-label">Complete 24 horas para receber seu retorno</div>
+            </div>
+            
+            <div class="earnings">
+                <div class="earnings-box">
+                    <div>Ganhos Hoje</div>
+                    <div class="earnings-value" id="today-earnings">0 MZN</div>
+                </div>
+                <div class="earnings-box">
+                    <div>Ganhos Totais</div>
+                    <div class="earnings-value" id="total-earnings">0 MZN</div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="transfer-btn">Transferir</button>
+                <button id="start-counter">Iniciar Contador</button>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="withdraw-btn">Levantar</button>
+                <button id="history-btn">Histórico</button>
+                <button id="logout-btn" class="logout-btn">Sair</button>
+            </div>
+            
+            <div id="dashboard-message" class="message"></div>
+            
+            <div class="transaction-history" id="transaction-history">
+                <h3>Últimas Transações</h3>
+                <div id="transactions-list">
+                    <!-- As transações serão adicionadas aqui dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Transferência Paga Fácil -->
+    <div id="transfer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Transferência Paga Fácil</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="paga-facil-logo">PAGA FÁCIL</div>
+            
+            <div id="transfer-form-step1" class="transfer-form">
+                <div class="form-group">
+                    <label for="recipient-phone">Waite-Vendas Online</label>
+                    <input type="tel" id="recipient-phone" placeholder="Código: 1198697" pattern="[0-9]{9}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="transfer-amount">Valor da Transferência (MZN)</label>
+                    <input type="number" id="transfer-amount" placeholder="Ex: 300" min="10" max="5000">
+                </div>
+                
+                <div class="transfer-info">
+                    <h4>Informações de taxa</h4>
+                    <div class="transfer-details">
+                        <span>Taxa de serviço:</span>
+                        <span id="service-fee">5 MZN</span>
+                    </div>
+                    <div class="transfer-details">
+                        <span>Total a debitar:</span>
+                        <span id="total-debit">0 MZN</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transfer-reference">ID de transação </label>
+                    <input type="text" id="transfer-reference" placeholder="ID">
+                </div>
+                
+                <button id="next-to-confirm">Continuar</button>
+                <div id="transfer-message" class="message"></div>
+            </div>
+            
+            <div id="transfer-form-step2" class="transfer-form confirmation-step">
+                <h3>Confirmar Transferência</h3>
+                
+                <div class="confirmation-details">
+                    <div class="transfer-details">
+                        <span>Destinatário:</span>
+                        <span id="confirm-recipient">+258</span>
+                    </div>
+                    <div class="transfer-details">
+                        <span>Valor:</span>
+                        <span id="confirm-amount">0 MZN</span>
+                    </div>
+                    <div class="transfer-details">
+                        <span>Taxa de serviço:</span>
+                        <span id="confirm-fee">5 MZN</span>
+                    </div>
+                    <div class="transfer-details">
+                        <span>Total:</span>
+                        <span id="confirm-total">0 MZN</span>
+                    </div>
+                    <div class="transfer-details">
+                        <span>Referência:</span>
+                        <span id="confirm-reference">-</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transfer-pin">Confirme seu PIN</label>
+                    <input type="password" id="transfer-pin" placeholder="****" maxlength="4" pattern="[0-9]{4}">
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="back-to-transfer">Voltar</button>
+                    <button id="confirm-transfer">Confirmar Transferência</button>
+                </div>
+                <div id="confirm-transfer-message" class="message"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Levantamento -->
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Levantamento via Paga Fácil</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="paga-facil-logo">PAGA FÁCIL</div>
+            <div class="form-group">
+                <label for="withdraw-amount">Valor (MZN)</label>
+                <input type="number" id="withdraw-amount" placeholder="Ex: 300" min="10">
+            </div>
+            <div class="form-group">
+                <label for="withdraw-phone">Número para receber</label>
+                <input type="tel" id="withdraw-phone" placeholder="+258" pattern="[0-9]{9}">
+            </div>
+            <button id="confirm-withdraw">Confirmar Levantamento</button>
+            <div id="withdraw-message" class="message"></div>
+        </div>
+    </div>
+    
+    <!-- Modal de Histórico -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Histórico de Transações</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="history-list">
+                <!-- O histórico completo será adicionado aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const dashboard = document.getElementById('dashboard');
+        const showRegister = document.getElementById('show-register');
+        const showLogin = document.getElementById('show-login');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const startCounterBtn = document.getElementById('start-counter');
+        const transferBtn = document.getElementById('transfer-btn');
+        const withdrawBtn = document.getElementById('withdraw-btn');
+        const historyBtn = document.getElementById('history-btn');
+        const counterDisplay = document.getElementById('counter');
+        const userBalance = document.getElementById('user-balance');
+        const todayEarnings = document.getElementById('today-earnings');
+        const totalEarnings = document.getElementById('total-earnings');
+        const userName = document.getElementById('user-name');
+        const userPhone = document.getElementById('user-phone');
+        
+        // Modais
+        const transferModal = document.getElementById('transfer-modal');
+        const withdrawModal = document.getElementById('withdraw-modal');
+        const historyModal = document.getElementById('history-modal');
+        const closeModals = document.querySelectorAll('.close-modal');
+        
+        // Elementos do formulário de transferência
+        const transferStep1 = document.getElementById('transfer-form-step1');
+        const transferStep2 = document.getElementById('transfer-form-step2');
+        const nextToConfirmBtn = document.getElementById('next-to-confirm');
+        const backToTransferBtn = document.getElementById('back-to-transfer');
+        const confirmTransferBtn = document.getElementById('confirm-transfer');
+        
+        // Mensagens
+        const loginMessage = document.getElementById('login-message');
+        const registerMessage = document.getElementById('register-message');
+        const dashboardMessage = document.getElementById('dashboard-message');
+        const transferMessage = document.getElementById('transfer-message');
+        const confirmTransferMessage = document.getElementById('confirm-transfer-message');
+        const withdrawMessage = document.getElementById('withdraw-message');
+        
+        // Variáveis de estado
+        let isCounterRunning = false;
+        let counterTime = 24 * 60 * 60; // 24 horas em segundos
+        let counterInterval;
+        let userData = null;
+        let transferData = {};
+        
+        // Mostrar formulário de registro
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'flex';
+        });
+        
+        // Mostrar formulário de login
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'flex';
+        });
+        
+        // Processar registro
+        registerBtn.addEventListener('click', () => {
+            const name = document.getElementById('register-name').value;
+            const phone = document.getElementById('register-phone').value;
+            const pin = document.getElementById('register-pin').value;
+            const confirmPin = document.getElementById('register-confirm-pin').value;
+            
+            if (!name || !phone || !pin || !confirmPin) {
+                showMessage(registerMessage, 'Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            if (phone.length !== 9) {
+                showMessage(registerMessage, 'Número de telefone deve ter 9 dígitos.', 'error');
+                return;
+            }
+            
+            if (pin.length !== 4) {
+                showMessage(registerMessage, 'PIN deve ter 4 dígitos.', 'error');
+                return;
+            }
+            
+            if (pin !== confirmPin) {
+                showMessage(registerMessage, 'Os PINs não coincidem.', 'error');
+                return;
+            }
+            
+            // Verificar se o número já está registrado
+            const existingUser = localStorage.getItem(`mznUser_${phone}`);
+            if (existingUser) {
+                showMessage(registerMessage, 'Este número já está registrado.', 'error');
+                return;
+            }
+            
+            // Simular registro bem-sucedido com bónus
+            userData = {
+                name: name,
+                phone: phone,
+                pin: pin,
+                balance: 100, // Bónus de 100 MZN
+                todayEarnings: 0,
+                totalEarnings: 0,
+                transactions: [{
+                    type: 'bonus',
+                    amount: 100,
+                    date: new Date().toLocaleString('pt-MZ'),
+                    method: 'Bónus de Registo',
+                    reference: 'Bónus de Boas-Vindas'
+                }]
+            };
+            
+            // Salvar no localStorage
+            localStorage.setItem(`mznUser_${phone}`, JSON.stringify(userData));
+            
+            showMessage(registerMessage, 'Conta criada com sucesso! Recebeu 100 MZN de bónus. Faça login.', 'success');
+            
+            // Limpar formulário
+            document.getElementById('register-name').value = '';
+            document.getElementById('register-phone').value = '';
+            document.getElementById('register-pin').value = '';
+            document.getElementById('register-confirm-pin').value = '';
+            
+            // Mostrar formulário de login
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'flex';
+        });
+        
+        // Processar login
+        loginBtn.addEventListener('click', () => {
+            const phone = document.getElementById('login-phone').value;
+            const pin = document.getElementById('login-pin').value;
+            
+            if (!phone || !pin) {
+                showMessage(loginMessage, 'Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            if (phone.length !== 9) {
+                showMessage(loginMessage, 'Número de telefone deve ter 9 dígitos.', 'error');
+                return;
+            }
+            
+            if (pin.length !== 4) {
+                showMessage(loginMessage, 'PIN deve ter 4 dígitos.', 'error');
+                return;
+            }
+            
+            // Verificar se o usuário existe no localStorage
+            const storedUser = localStorage.getItem(`mznUser_${phone}`);
+            
+            if (!storedUser) {
+                showMessage(loginMessage, 'Número não registrado. Crie uma conta.', 'error');
+                return;
+            }
+            
+            userData = JSON.parse(storedUser);
+            
+            // Verificar se o PIN corresponde
+            if (userData.pin !== pin) {
+                showMessage(loginMessage, 'PIN incorreto.', 'error');
+                return;
+            }
+            
+            // Login bem-sucedido
+            showDashboard();
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            userData = null;
+            stopCounter();
+            loginForm.style.display = 'flex';
+            dashboard.style.display = 'none';
+            
+            // Limpar formulário de login
+            document.getElementById('login-phone').value = '';
+            document.getElementById('login-pin').value = '';
+        });
+        
+        // Abrir modal de transferência
+        transferBtn.addEventListener('click', () => {
+            // Resetar formulário de transferência
+            document.getElementById('recipient-phone').value = '';
+            document.getElementById('transfer-amount').value = '';
+            document.getElementById('transfer-reference').value = '';
+            document.getElementById('transfer-pin').value = '';
+            
+            // Mostrar primeiro passo
+            transferStep1.style.display = 'block';
+            transferStep2.style.display = 'none';
+            
+            transferModal.style.display = 'flex';
+        });
+        
+        // Calcular total da transferência
+        document.getElementById('transfer-amount').addEventListener('input', () => {
+            const amount = parseInt(document.getElementById('transfer-amount').value) || 0;
+            const serviceFee = 5; // Taxa fixa de 5 MZN
+            const total = amount + serviceFee;
+            
+            document.getElementById('total-debit').textContent = total + ' MZN';
+        });
+        
+        // Próximo passo da transferência
+        nextToConfirmBtn.addEventListener('click', () => {
+            const recipientPhone = document.getElementById('recipient-phone').value;
+            const amount = parseInt(document.getElementById('transfer-amount').value);
+            const reference = document.getElementById('transfer-reference').value;
+            
+            if (!recipientPhone || recipientPhone.length !== 9) {
+                showMessage(transferMessage, 'Por favor, insira um número de telefone válido.', 'error');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                showMessage(transferMessage, 'Por favor, insira um valor válido.', 'error');
+                return;
+            }
+            
+            if (amount < 10) {
+                showMessage(transferMessage, 'O valor mínimo de transferência é 10 MZN.', 'error');
+                return;
+            }
+            
+            const serviceFee = 5;
+            const total = amount + serviceFee;
+            
+            if (userData.balance < total) {
+                showMessage(transferMessage, 'Saldo insuficiente para realizar esta transferência.', 'error');
+                return;
+            }
+            
+            // Verificar se o destinatário existe
+            const recipientUser = localStorage.getItem(`mznUser_${recipientPhone}`);
+            if (!recipientUser) {
+                showMessage(transferMessage, 'Destinatário não encontrado. Verifique o número.', 'error');
+                return;
+            }
+            
+            // Verificar se não está transferindo para si mesmo
+            if (recipientPhone === userData.phone) {
+                showMessage(transferMessage, 'Não pode transferir para o seu próprio número.', 'error');
+                return;
+            }
+            
+            // Salvar dados da transferência
+            transferData = {
+                recipientPhone: recipientPhone,
+                amount: amount,
+                reference: reference,
+                serviceFee: serviceFee,
+                total: total
+            };
+            
+            // Preencher detalhes de confirmação
+            document.getElementById('confirm-recipient').textContent = recipientPhone;
+            document.getElementById('confirm-amount').textContent = amount + ' MZN';
+            document.getElementById('confirm-fee').textContent = serviceFee + ' MZN';
+            document.getElementById('confirm-total').textContent = total + ' MZN';
+            document.getElementById('confirm-reference').textContent = reference || '-';
+            
+            // Mostrar passo de confirmação
+            transferStep1.style.display = 'none';
+            transferStep2.style.display = 'block';
+        });
+        
+        // Voltar para o formulário de transferência
+        backToTransferBtn.addEventListener('click', () => {
+            transferStep1.style.display = 'block';
+            transferStep2.style.display = 'none';
+        });
+        
+        // Confirmar transferência
+        confirmTransferBtn.addEventListener('click', () => {
+            const pin = document.getElementById('transfer-pin').value;
+            
+            if (!pin || pin.length !== 4) {
+                showMessage(confirmTransferMessage, 'Por favor, insira seu PIN.', 'error');
+                return;
+            }
+            
+            if (userData.pin !== pin) {
+                showMessage(confirmTransferMessage, 'PIN incorreto.', 'error');
+                return;
+            }
+            
+            // Processar transferência
+            processTransfer();
+        });
+        
+        // Abrir modal de levantamento
+        withdrawBtn.addEventListener('click', () => {
+            // Preencher número do usuário por padrão
+            document.getElementById('withdraw-phone').value = userData.phone;
+            withdrawModal.style.display = 'flex';
+        });
+        
+        // Abrir modal de histórico
+        historyBtn.addEventListener('click', () => {
+            showHistoryModal();
+        });
+        
+        // Fechar modais
+        closeModals.forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                transferModal.style.display = 'none';
+                withdrawModal.style.display = 'none';
+                historyModal.style.display = 'none';
+            });
+        });
+        
+        // Processar transferência Paga Fácil
+        function processTransfer() {
+            // Simular processamento
+            setTimeout(() => {
+                // Debitar da conta do remetente
+                userData.balance -= transferData.total;
+                
+                // Adicionar transação de saída ao histórico do remetente
+                userData.transactions.unshift({
+                    type: 'transfer',
+                    amount: -transferData.amount,
+                    fee: transferData.serviceFee,
+                    date: new Date().toLocaleString('pt-MZ'),
+                    method: 'Paga Fácil',
+                    reference: transferData.reference || 'Transferência',
+                    recipient: transferData.recipientPhone
+                });
+                
+                // Atualizar localStorage do remetente
+                localStorage.setItem(`mznUser_${userData.phone}`, JSON.stringify(userData));
+                
+                // Creditar na conta do destinatário
+                const recipientUser = JSON.parse(localStorage.getItem(`mznUser_${transferData.recipientPhone}`));
+                recipientUser.balance += transferData.amount;
+                
+                // Adicionar transação de entrada ao histórico do destinatário
+                recipientUser.transactions.unshift({
+                    type: 'transfer',
+                    amount: transferData.amount,
+                    date: new Date().toLocaleString('pt-MZ'),
+                    method: 'Paga Fácil',
+                    reference: transferData.reference || 'Transferência recebida',
+                    sender: userData.phone
+                });
+                
+                // Atualizar localStorage do destinatário
+                localStorage.setItem(`mznUser_${transferData.recipientPhone}`, JSON.stringify(recipientUser));
+                
+                // Atualizar dashboard
+                updateDashboard();
+                
+                showMessage(confirmTransferMessage, `Transferência de ${transferData.amount} MZN realizada com sucesso!`, 'success');
+                
+                // Fechar modal após 2 segundos
+                setTimeout(() => {
+                    transferModal.style.display = 'none';
+                    confirmTransferMessage.style.display = 'none';
+                }, 2000);
+            }, 1500);
+        }
+        
+        // Confirmar levantamento
+        document.getElementById('confirm-withdraw').addEventListener('click', () => {
+            const amount = parseInt(document.getElementById('withdraw-amount').value);
+            const phone = document.getElementById('withdraw-phone').value;
+            
+            if (!amount || amount <= 0) {
+                showMessage(withdrawMessage, 'Por favor, insira um valor válido.', 'error');
+                return;
+            }
+            
+            if (amount < 10) {
+                showMessage(withdrawMessage, 'O valor mínimo de levantamento é 10 MZN.', 'error');
+                return;
+            }
+            
+            if (!phone || phone.length !== 9) {
+                showMessage(withdrawMessage, 'Por favor, insira um número de telefone válido.', 'error');
+                return;
+            }
+            
+            if (userData.balance < amount) {
+                showMessage(withdrawMessage, 'Saldo insuficiente para este levantamento.', 'error');
+                return;
+            }
+            
+            // Simular levantamento via Paga Fácil
+            userData.balance -= amount;
+            
+            // Adicionar transação ao histórico
+            userData.transactions.unshift({
+                type: 'withdrawal',
+                amount: amount,
+                date: new Date().toLocaleString('pt-MZ'),
+                method: 'Paga Fácil',
+                reference: 'Levantamento para ' + phone
+            });
+            
+            // Atualizar localStorage
+            localStorage.setItem(`mznUser_${userData.phone}`, JSON.stringify(userData));
+            
+            // Atualizar dashboard
+            updateDashboard();
+            
+            showMessage(withdrawMessage, `Levantamento de ${amount} MZN realizado com sucesso para ${phone}!`, 'success');
+            
+            // Fechar modal após 2 segundos
+            setTimeout(() => {
+                withdrawModal.style.display = 'none';
+                document.getElementById('withdraw-amount').value = '';
+                withdrawMessage.style.display = 'none';
+            }, 2000);
+        });
+        
+        // Iniciar contador
+        startCounterBtn.addEventListener('click', () => {
+            if (!isCounterRunning) {
+                startCounter();
+                showMessage(dashboardMessage, 'Contador iniciado! Complete 24h para receber seu retorno.', 'success');
+            } else {
+                showMessage(dashboardMessage, 'O contador já está em execução.', 'error');
+            }
+        });
+        
+        // Função para mostrar o dashboard
+        function showDashboard() {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            dashboard.style.display = 'block';
+            
+            updateDashboard();
+        }
+        
+        // Atualizar informações do dashboard
+        function updateDashboard() {
+            userName.textContent = userData.name;
+            userPhone.textContent = userData.phone;
+            userBalance.textContent = userData.balance;
+            todayEarnings.textContent = userData.todayEarnings + ' MZN';
+            totalEarnings.textContent = userData.totalEarnings + ' MZN';
+            
+            // Atualizar lista de transações
+            updateTransactionList();
+        }
+        
+        // Atualizar lista de transações no dashboard
+        function updateTransactionList() {
+            const transactionsList = document.getElementById('transactions-list');
+            transactionsList.innerHTML = '';
+            
+            // Mostrar apenas as últimas 3 transações
+            const recentTransactions = userData.transactions.slice(0, 3);
+            
+            if (recentTransactions.length === 0) {
+                transactionsList.innerHTML = '<p>Nenhuma transação realizada ainda.</p>';
+                return;
+            }
+            
+            recentTransactions.forEach(transaction => {
+                const transactionItem = document.createElement('div');
+                transactionItem.className = 'transaction-item';
+                
+                let typeClass, typeText, amountText;
+                
+                if (transaction.type === 'bonus') {
+                    typeClass = 'earning';
+                    typeText = 'Bónus';
+                    amountText = `+${transaction.amount} MZN`;
+                } else if (transaction.type === 'withdrawal') {
+                    typeClass = 'withdrawal';
+                    typeText = 'Levantamento';
+                    amountText = `-${transaction.amount} MZN`;
+                } else if (transaction.type === 'earning') {
+                    typeClass = 'earning';
+                    typeText = 'Ganho';
+                    amountText = `+${transaction.amount} MZN`;
+                } else if (transaction.type === 'transfer') {
+                    typeClass = 'transfer';
+                    if (transaction.amount > 0) {
+                        typeText = 'Transferência Recebida';
+                        amountText = `+${transaction.amount} MZN`;
+                    } else {
+                        typeText = 'Transferência Enviada';
+                        amountText = `${transaction.amount} MZN`;
+                    }
+                }
+                
+                transactionItem.innerHTML = `
+                    <div>
+                        <span class="transaction-type ${typeClass}">${typeText}</span>
+                        <div>${transaction.date}</div>
+                        <div style="font-size: 12px; opacity: 0.7;">
+                            ${transaction.method || ''} 
+                            ${transaction.reference ? ' - ' + transaction.reference : ''}
+                            ${transaction.recipient ? ' para ' + transaction.recipient : ''}
+                            ${transaction.sender ? ' de ' + transaction.sender : ''}
+                            ${transaction.fee ? ' (Taxa: ' + transaction.fee + ' MZN)' : ''}
+                        </div>
+                    </div>
+                    <div>${amountText}</div>
+                `;
+                
+                transactionsList.appendChild(transactionItem);
+            });
+        }
+        
+        // Mostrar modal de histórico completo
+        function showHistoryModal() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            if (userData.transactions.length === 0) {
+                historyList.innerHTML = '<p>Nenhuma transação realizada ainda.</p>';
+            } else {
+                userData.transactions.forEach(transaction => {
+                    const transactionItem = document.createElement('div');
+                    transactionItem.className = 'transaction-item';
+                    
+                    let typeClass, typeText, amountText;
+                    
+                    if (transaction.type === 'bonus') {
+                        typeClass = 'earning';
+                        typeText = 'Bónus';
+                        amountText = `+${transaction.amount} MZN`;
+                    } else if (transaction.type === 'withdrawal') {
+                        typeClass = 'withdrawal';
+                        typeText = 'Levantamento';
+                        amountText = `-${transaction.amount} MZN`;
+                    } else if (transaction.type === 'earning') {
+                        typeClass = 'earning';
+                        typeText = 'Ganho';
+                        amountText = `+${transaction.amount} MZN`;
+                    } else if (transaction.type === 'transfer') {
+                        typeClass = 'transfer';
+                        if (transaction.amount > 0) {
+                            typeText = 'Transferência Recebida';
+                            amountText = `+${transaction.amount} MZN`;
+                        } else {
+                            typeText = 'Transferência Enviada';
+                            amountText = `${transaction.amount} MZN`;
+                        }
+                    }
+                    
+                    transactionItem.innerHTML = `
+                        <div>
+                            <span class="transaction-type ${typeClass}">${typeText}</span>
+                            <div>${transaction.date}</div>
+                            <div style="font-size: 12px; opacity: 0.7;">
+                                ${transaction.method || ''} 
+                                ${transaction.reference ? ' - ' + transaction.reference : ''}
+                                ${transaction.recipient ? ' para ' + transaction.recipient : ''}
+                                ${transaction.sender ? ' de ' + transaction.sender : ''}
+                                ${transaction.fee ? ' (Taxa: ' + transaction.fee + ' MZN)' : ''}
+                            </div>
+                        </div>
+                        <div>${amountText}</div>
+                    `;
+                    
+                    historyList.appendChild(transactionItem);
+                });
+            }
+            
+            historyModal.style.display = 'flex';
+        }
+        
+        // Iniciar contador
+        function startCounter() {
+            isCounterRunning = true;
+            counterTime = 24 * 60 * 60; // Reset para 24 horas
+            
+            counterInterval = setInterval(() => {
+                counterTime--;
+                
+                // Atualizar display do contador
+                const hours = Math.floor(counterTime / 3600);
+                const minutes = Math.floor((counterTime % 3600) / 60);
+                const seconds = counterTime % 60;
+                
+                counterDisplay.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Quando o contador chegar a zero
+                if (counterTime <= 0) {
+                    stopCounter();
+                    
+                    // Calcular ganhos (simulação)
+                    const earnings = Math.floor(Math.random() * 50) + 10; // Entre 10 e 60 MZN
+                    
+                    // Atualizar dados do usuário
+                    userData.balance += earnings;
+                    userData.todayEarnings += earnings;
+                    userData.totalEarnings += earnings;
+                    
+                    // Adicionar transação ao histórico
+                    userData.transactions.unshift({
+                        type: 'earning',
+                        amount: earnings,
+                        date: new Date().toLocaleString('pt-MZ'),
+                        method: 'Investimento'
+                    });
+                    
+                    // Atualizar localStorage
+                    localStorage.setItem(`mznUser_${userData.phone}`, JSON.stringify(userData));
+                    
+                    // Atualizar dashboard
+                    updateDashboard();
+                    
+                    showMessage(dashboardMessage, `Parabéns! Você ganhou ${earnings} MZN!`, 'success');
+                }
+            }, 1000);
+        }
+        
+        // Parar contador
+        function stopCounter() {
+            isCounterRunning = false;
+            clearInterval(counterInterval);
+            counterDisplay.textContent = '24:00:00';
+        }
+        
+        // Mostrar mensagem
+        function showMessage(element, text, type) {
+            element.textContent = text;
+            element.className = 'message ' + type;
+            element.style.display = 'block';
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
